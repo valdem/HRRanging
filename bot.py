@@ -28,8 +28,6 @@ dp = Dispatcher(storage=storage)
 class Form(StatesGroup):
     waiting_for_text = State()
 
-
-
 ALLOWED_UPDATES = ['message, edited_message']
 
 private = [
@@ -63,7 +61,7 @@ async def about_cmd(message: types.Message):
 # @dp.message(F.text.lower() == "текущая модель")
 # @dp.message(Command('checkmodel'))
 # async def check_cmd(message: types.Message):
-#     await message.answer("facebook/bart-large-cnn")
+#     await message.answer("")
 
 
 @dp.message((F.text.lower() == "найти кандидатов") | (F.text.lower() == "отобрать кандидатов"))
