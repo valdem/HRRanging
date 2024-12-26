@@ -16,20 +16,21 @@ from sentence_transformers import SentenceTransformer
 #drive.mount('/content/gdrive')
 
 # открываем нужные коллекции
-jobs_file = '/Users/vadim/Downloads/imarketplacedevelopment/jobs.json'
-offers_file = '/Users/vadim/Downloads/imarketplacedevelopment/offers.json'
-specialists_file = '/Users/vadim/Downloads/imarketplacedevelopment/specialists.json'
-skills_file = '/Users/vadim/Downloads/imarketplacedevelopment/skills.json'
-offerstatuses_file = '/Users/vadim/Downloads/imarketplacedevelopment/offerstatuses.json'
-with open(jobs_file) as train_file:
+jobs_file = 'jsons/jobs.json'
+offers_file = 'jsons/offers.json'
+specialists_file = 'jsons/specialists.json'
+skills_file = 'jsons/skills.json'
+offerstatuses_file = 'jsons/offerstatuses.json'
+
+with open(jobs_file, encoding='utf-8') as train_file:
     dict_jobs = json.load(train_file)
-with open(offers_file) as train_file:
+with open(offers_file, encoding='utf-8') as train_file:
     dict_offers = json.load(train_file)
-with open(specialists_file) as train_file:
+with open(specialists_file, encoding='utf-8') as train_file:
     dict_specs = json.load(train_file)
-with open(skills_file) as train_file:
+with open(skills_file, encoding='utf-8') as train_file:
     dict_skills = json.load(train_file)
-with open(offerstatuses_file) as train_file:
+with open(offerstatuses_file, encoding='utf-8') as train_file:
     dict_offstatuses = json.load(train_file)
 
 # делаем датафреймы из коллекций json
@@ -56,6 +57,8 @@ for job in dict_jobs:
 requierements = []
 for job in df_offers['job.$oid']:
     requierements.append(job_reqs[job])
+
+print(job_reqs)
 
 # составляем список из скиллов специалиста
 spec_skills = []
@@ -98,6 +101,8 @@ df_offers.info()
 # удаляем строки с пустыми значениями
 df_offers.dropna(inplace = True)
 
+# df_offers.head(10)
+
 # подгружаем модель
 model = SentenceTransformer("all-MiniLM-L6-v2")
 
@@ -128,6 +133,6 @@ def find_specialist(requirement):
     if similarities[0][idx_i] > similarity:
       similarity = similarities[0][idx_i]
       sim_skill = skill
-  found_spec = (f" - {sim_skill: <30}: {similarity:.4f}")
+  found_spec = (f" - {sim_skill: <200}: {    similarity: .4f}")
 
   return found_spec
